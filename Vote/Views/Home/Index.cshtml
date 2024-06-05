@@ -1,0 +1,72 @@
+﻿@model Vote.ViewModel.VotingViewModel
+
+<h1>Voting App</h1>
+
+<h2>Add Voter</h2>
+<form asp-action="AddVoter" method="post">
+    <input type="text" name="name" placeholder="Voter Name" required />
+    <button type="submit">Add Voter</button>
+</form>
+
+<h2>Add Candidate</h2>
+<form asp-action="AddCandidate" method="post">
+    <input type="text" name="name" placeholder="Candidate Name" required />
+    <button type="submit">Add Candidate</button>
+</form>
+
+<h2>Cast Vote</h2>
+<form asp-action="CastVote" method="post">
+    <select name="voterId" required>
+        <option value="">Select Voter</option>
+        @foreach (var voter in Model.Voters.Where(v => !v.HasVoted))
+        {
+            <option value="@voter.Id">@voter.Name</option>
+        }
+    </select>
+    <select name="candidateId" required>
+        <option value="">Select Candidate</option>
+        @foreach (var candidate in Model.Candidates)
+        {
+            <option value="@candidate.Id">@candidate.Name</option>
+        }
+    </select>
+    <button type="submit">Cast Vote</button>
+</form>
+
+<h2>Voters</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Has Voted</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var voter in Model.Voters)
+        {
+            <tr>
+                <td>@voter.Name</td>
+                <td>@voter.HasVoted</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Candidates</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Votes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var candidate in Model.Candidates)
+        {
+            <tr>
+                <td>@candidate.Name</td>
+                <td>@candidate.Votes</td>
+            </tr>
+        }
+    </tbody>
+</table>
